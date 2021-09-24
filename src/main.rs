@@ -1,3 +1,5 @@
+use std::mem;
+
 struct Person<'a> {
     name: &'a str,
     age: i32,
@@ -33,6 +35,7 @@ impl<'a> Person<'a> {
     fn show_family_tree(&self) {
         self.show_r(0)
     }
+    /*
     fn collect_r<'b>(&'a self, result: &'b mut Vec<&'a Person<'a>>,
             filter: fn(&'a Person) -> bool) {
         if filter(self) {
@@ -47,31 +50,65 @@ impl<'a> Person<'a> {
         self.collect_r(&mut result, filter);
         result
     }
+    */
 }
 
 fn main() {
-    let mut person1 = Person::new("Ruth", 120);
-    person1
+    let mut tree1 = Person::new("Ruth", 120);
+    tree1
         .add("Pat", 91)
         .add("John", 89);
         
-    person1.children[0]
+    tree1.children[0]
         .add("Jim", 65)
         .add("Chuck", 65);
         
-    person1.children[1]
+    tree1.children[1]
         .add("Stan", 57)
         .add("Anne", 55);
         
-    person1.children[1].children[1]
+    tree1.children[1].children[0]
+        .add("Mary", 20);
+
+    tree1.children[1].children[1]
         .add("Helena", 21)
         .add("Peter", 19);
 
-    person1.show_family_tree();
-
-    let fifties = person1.collect(|p| p.age >= 50 && p.age < 60);
+    /*
+    let fifties = tree1.collect(|p| p.age >= 50 && p.age < 60);
     println!("fifties...");
     for p in fifties.iter() {
         p.show();
     }
+    */
+
+    let mut tree2 = Person::new("Murial", 91);
+    tree2
+        .add("Maya", 55)
+        .add("Matt", 59);
+        
+    tree2.children[0]
+        .add("Julia", 26)
+        .add("Andria", 28);
+
+    tree2.children[0].children[0]
+        .add("Tom", 2);
+
+    println!("Before Swap");
+
+    tree1.show_family_tree();
+    tree2.show_family_tree();
+
+    let swap_target1 = &mut tree1.children[1].children[0];
+    let swap_target2 = &mut tree2.children[0].children[0];
+
+    print!("swap target 1 is: "); swap_target1.show();
+    print!("swap target 2 is: "); swap_target2.show();
+
+    mem::swap(swap_target1, swap_target2);
+
+    println!("After Swap");
+    tree1.show_family_tree();
+    tree2.show_family_tree();
+
 }
