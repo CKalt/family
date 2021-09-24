@@ -1,0 +1,36 @@
+   Compiling family v0.1.0 (/home/chris/projects/rust/family)
+error[E0502]: cannot borrow `*self` as mutable because it is also borrowed as immutable
+  --> src/main.rs:41:13
+   |
+8  | impl<'a> Person<'a> {
+   |      -- lifetime `'a` defined here
+...
+40 |         if filter(self) {
+   |            ------------
+   |            |      |
+   |            |      immutable borrow occurs here
+   |            argument requires that `*self` is borrowed for `'a`
+41 |             result.push(self);
+   |             ^^^^^^^^^^^^^^^^^ mutable borrow occurs here
+
+error[E0502]: cannot borrow `self.children` as mutable because it is also borrowed as immutable
+  --> src/main.rs:43:18
+   |
+8  | impl<'a> Person<'a> {
+   |      -- lifetime `'a` defined here
+...
+40 |         if filter(self) {
+   |            ------------
+   |            |      |
+   |            |      immutable borrow occurs here
+   |            argument requires that `*self` is borrowed for `'a`
+...
+43 |         for c in self.children.iter_mut() {
+   |                  ^^^^^^^^^^^^^ mutable borrow occurs here
+
+error: aborting due to 2 previous errors
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `family`
+
+To learn more, run the command again with --verbose.
