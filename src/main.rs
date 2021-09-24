@@ -35,7 +35,6 @@ impl<'a> Person<'a> {
     fn show_family_tree(&self) {
         self.show_r(0)
     }
-    /*
     fn collect_r<'b>(&'a self, result: &'b mut Vec<&'a Person<'a>>,
             filter: fn(&'a Person) -> bool) {
         if filter(self) {
@@ -50,7 +49,6 @@ impl<'a> Person<'a> {
         self.collect_r(&mut result, filter);
         result
     }
-    */
 }
 
 fn main() {
@@ -74,13 +72,12 @@ fn main() {
         .add("Helena", 21)
         .add("Peter", 19);
 
-    /*
+
     let fifties = tree1.collect(|p| p.age >= 50 && p.age < 60);
-    println!("fifties...");
+    println!("tree1 people in their fifties...");
     for p in fifties.iter() {
         p.show();
     }
-    */
 
     let mut tree2 = Person::new("Murial", 91);
     tree2
