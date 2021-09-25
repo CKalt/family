@@ -102,16 +102,18 @@ fn main() {
     let swap_ptr2: *mut Person = 
         &mut tree2.children[0].children[0] as *mut Person;
 
+    let mut swap_ptrs1: Vec<*mut Person> = Vec::new();
+    let mut swap_ptrs2: Vec<*mut Person> = Vec::new();
+
+    swap_ptrs1.push(swap_ptr1);
+    swap_ptrs2.push(swap_ptr2);
+
     let swap_target1: &mut Person;
     let swap_target2: &mut Person;
     unsafe {
-        swap_target1 = swap_ptr1.as_mut().unwrap();
-        swap_target2 = swap_ptr2.as_mut().unwrap();
+        swap_target1 = swap_ptrs1[0].as_mut().unwrap();
+        swap_target2 = swap_ptrs2[0].as_mut().unwrap();
     }
-
-    /*let swap_target1 = &mut tree1.children[1].children[0];
-    let swap_target2 = &mut tree2.children[0].children[0];
-    */
 
     swap_target1.age += 10;
     swap_target2.age += 10;

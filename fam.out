@@ -1,5 +1,5 @@
    Compiling family v0.1.0 (/home/chris/projects/rust/family)
-    Finished release [optimized] target(s) in 0.35s
+    Finished release [optimized] target(s) in 0.52s
      Running `target/release/family`
 tree1 people in their fifties...
 Stan, 57 yrs old
