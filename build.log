@@ -1,19 +1,2 @@
    Compiling family v0.1.0 (/home/chris/projects/rust/family)
-error[E0606]: casting `&mut &mut Person<'_>` as `*mut Person<'_>` is invalid
-   --> src/main.rs:107:33
-    |
-107 |     let raw_ptr1: *mut Person = &mut swap_target1 as *mut Person;
-    |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error[E0606]: casting `&mut &mut Person<'_>` as `*mut Person<'_>` is invalid
-   --> src/main.rs:108:33
-    |
-108 |     let raw_ptr2: *mut Person = &mut swap_target2 as *mut Person;
-    |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: aborting due to 2 previous errors
-
-For more information about this error, try `rustc --explain E0606`.
-error: could not compile `family`
-
-To learn more, run the command again with --verbose.
+    Finished dev [unoptimized + debuginfo] target(s) in 0.38s

@@ -96,16 +96,32 @@ fn main() {
     tree1.show_family_tree();
     tree2.show_family_tree();
 
-    let swap_target1 = &mut tree1.children[1].children[0];
+    let swap_ptr1: *mut Person = 
+        &mut tree1.children[1].children[0] as *mut Person;
+
+    let swap_ptr2: *mut Person = 
+        &mut tree2.children[0].children[0] as *mut Person;
+
+    let swap_target1: &mut Person;
+    let swap_target2: &mut Person;
+    unsafe {
+        swap_target1 = swap_ptr1.as_mut().unwrap();
+        swap_target2 = swap_ptr2.as_mut().unwrap();
+    }
+
+    /*let swap_target1 = &mut tree1.children[1].children[0];
     let swap_target2 = &mut tree2.children[0].children[0];
+    */
+
+    swap_target1.age += 10;
+    swap_target2.age += 10;
 
     print!("swap target 1 is: "); swap_target1.show();
     print!("swap target 2 is: "); swap_target2.show();
 
     mem::swap(swap_target1, swap_target2);
-
     println!("After Swap");
+
     tree1.show_family_tree();
     tree2.show_family_tree();
-
 }

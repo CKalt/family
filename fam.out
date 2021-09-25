@@ -1,19 +1,42 @@
    Compiling family v0.1.0 (/home/chris/projects/rust/family)
-error[E0606]: casting `&mut &mut Person<'_>` as `*mut Person<'_>` is invalid
-   --> src/main.rs:107:33
-    |
-107 |     let raw_ptr1: *mut Person = &mut swap_target1 as *mut Person;
-    |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error[E0606]: casting `&mut &mut Person<'_>` as `*mut Person<'_>` is invalid
-   --> src/main.rs:108:33
-    |
-108 |     let raw_ptr2: *mut Person = &mut swap_target2 as *mut Person;
-    |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: aborting due to 2 previous errors
-
-For more information about this error, try `rustc --explain E0606`.
-error: could not compile `family`
-
-To learn more, run the command again with --verbose.
+    Finished release [optimized] target(s) in 0.35s
+     Running `target/release/family`
+tree1 people in their fifties...
+Stan, 57 yrs old
+Anne, 55 yrs old
+Before Swap
+Ruth, 120 yrs old
+    Pat, 91 yrs old
+        Jim, 65 yrs old
+        Chuck, 65 yrs old
+    John, 89 yrs old
+        Stan, 57 yrs old
+            Mary, 20 yrs old
+        Anne, 55 yrs old
+            Helena, 21 yrs old
+            Peter, 19 yrs old
+Murial, 91 yrs old
+    Maya, 55 yrs old
+        Julia, 26 yrs old
+            Tom, 2 yrs old
+        Andria, 28 yrs old
+    Matt, 59 yrs old
+swap target 1 is: Stan, 67 yrs old
+swap target 2 is: Julia, 36 yrs old
+After Swap
+Ruth, 120 yrs old
+    Pat, 91 yrs old
+        Jim, 65 yrs old
+        Chuck, 65 yrs old
+    John, 89 yrs old
+        Julia, 36 yrs old
+            Tom, 2 yrs old
+        Anne, 55 yrs old
+            Helena, 21 yrs old
+            Peter, 19 yrs old
+Murial, 91 yrs old
+    Maya, 55 yrs old
+        Stan, 67 yrs old
+            Mary, 20 yrs old
+        Andria, 28 yrs old
+    Matt, 59 yrs old
