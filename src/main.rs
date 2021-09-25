@@ -97,32 +97,36 @@ fn main() {
     tree2.children[0].children[0]
         .add("Tom", 2);
 
-    let fifties1 = tree1.collect(|p| p.age >= 50 && p.age < 60);
+    println!("Before Swap");
+    tree1.show_family_tree();
+    tree2.show_family_tree();
+
+    // get people in their fifties for swap candidates
+    let (fifties1, fifties2) =
+        (tree1.collect(|p| p.age >= 50 && p.age < 60),
+         tree2.collect(|p| p.age >= 50 && p.age < 60));
+
     println!("tree1 people in their fifties...");
     for p in fifties1.iter() {
         p.show();
     }
 
-    let fifties2 = tree2.collect(|p| p.age >= 50 && p.age < 60);
     println!("tree2 people in their fifties...");
     for p in fifties2.iter() {
         p.show();
     }
 
-    println!("Before Swap");
-    tree1.show_family_tree();
-    tree2.show_family_tree();
+    let mut rng = rand::thread_rng();
+    let swap_target1 =
+        fifties1[rng.gen_range(0..fifties1.len())];
+    let swap_target2 =
+        fifties2[rng.gen_range(0..fifties2.len())];
+
+    print!("swap target 1 is: "); swap_target1.show();
+    print!("swap target 2 is: "); swap_target2.show();
 
     unsafe {
-        let mut rng = rand::thread_rng();
-        let swap_target1 =
-            fifties1[rng.gen_range(0..fifties1.len())].get_mut();
-        let swap_target2 =
-            fifties2[rng.gen_range(0..fifties2.len())].get_mut();
-
-        print!("swap target 1 is: "); swap_target1.show();
-        print!("swap target 2 is: "); swap_target2.show();
-        mem::swap(swap_target1, swap_target2);
+        mem::swap(swap_target1.get_mut(), swap_target2.get_mut());
     }
 
     println!("After Swap");
