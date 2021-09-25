@@ -1,4 +1,5 @@
 use std::mem;
+use rand::Rng;
 
 struct Person<'a> {
     name: &'a str,
@@ -49,6 +50,18 @@ impl<'a> Person<'a> {
         self.collect_r(&mut result, filter);
         result
     }
+    fn to_addr<'b>(&'b self) -> usize {
+        let p: *const Self = self as *const Self;
+        let addr: usize = p as usize;
+        addr
+    }
+    unsafe fn mut_from_addr<'b>(address: usize) -> &'b mut Person<'a> {
+        &mut *(address as *mut Self)
+    }
+    unsafe fn get_mut<'b>(&'b self) -> &'b mut Person<'a> {
+        let addr = self.to_addr();
+        Person::mut_from_addr(addr)
+    }
 }
 
 fn main() {
@@ -72,13 +85,6 @@ fn main() {
         .add("Helena", 21)
         .add("Peter", 19);
 
-
-    let fifties = tree1.collect(|p| p.age >= 50 && p.age < 60);
-    println!("tree1 people in their fifties...");
-    for p in fifties.iter() {
-        p.show();
-    }
-
     let mut tree2 = Person::new("Murial", 91);
     tree2
         .add("Maya", 55)
@@ -91,37 +97,34 @@ fn main() {
     tree2.children[0].children[0]
         .add("Tom", 2);
 
-    println!("Before Swap");
+    let fifties1 = tree1.collect(|p| p.age >= 50 && p.age < 60);
+    println!("tree1 people in their fifties...");
+    for p in fifties1.iter() {
+        p.show();
+    }
 
+    let fifties2 = tree2.collect(|p| p.age >= 50 && p.age < 60);
+    println!("tree2 people in their fifties...");
+    for p in fifties2.iter() {
+        p.show();
+    }
+
+    println!("Before Swap");
     tree1.show_family_tree();
     tree2.show_family_tree();
 
-    let swap_ptr1: *mut Person = 
-        &mut tree1.children[1].children[0] as *mut Person;
-
-    let swap_ptr2: *mut Person = 
-        &mut tree2.children[0].children[0] as *mut Person;
-
-    let mut swap_ptrs1: Vec<*mut Person> = Vec::new();
-    let mut swap_ptrs2: Vec<*mut Person> = Vec::new();
-
-    swap_ptrs1.push(swap_ptr1);
-    swap_ptrs2.push(swap_ptr2);
-
-    let swap_target1: &mut Person;
-    let swap_target2: &mut Person;
     unsafe {
-        swap_target1 = swap_ptrs1[0].as_mut().unwrap();
-        swap_target2 = swap_ptrs2[0].as_mut().unwrap();
+        let mut rng = rand::thread_rng();
+        let swap_target1 =
+            fifties1[rng.gen_range(0..fifties1.len())].get_mut();
+        let swap_target2 =
+            fifties2[rng.gen_range(0..fifties2.len())].get_mut();
+
+        print!("swap target 1 is: "); swap_target1.show();
+        print!("swap target 2 is: "); swap_target2.show();
+        mem::swap(swap_target1, swap_target2);
     }
 
-    swap_target1.age += 10;
-    swap_target2.age += 10;
-
-    print!("swap target 1 is: "); swap_target1.show();
-    print!("swap target 2 is: "); swap_target2.show();
-
-    mem::swap(swap_target1, swap_target2);
     println!("After Swap");
 
     tree1.show_family_tree();
